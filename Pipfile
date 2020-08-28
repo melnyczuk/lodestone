@@ -12,6 +12,9 @@ black = "*"
 flask = "*"
 waitress = "*"
 requests = "*"
+tensorflow = "*"
+torch = "*"
+torchvision = "*"
 
 [requires]
 python_version = "3.7"
@@ -22,3 +25,6 @@ format = "black -l 80 ."
 lint = "flake8 ."
 dev = "flask run --reload --debugger"
 prod = "waitress-serve wsgi:server"
+
+[pipenv]
+allow_prereleases = true
