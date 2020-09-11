@@ -1,22 +1,25 @@
 import os
 import requests
-from dataclasses import dataclass
-
-from typing import List
 from requests import Response
+from dataclasses import dataclass
+from typing import Any, List
 
-ROD_URL = os.getenv("ROD_URL", "localhost:9891")
-URL = f"{ROD_URL}/google"
+from .models import Location
 
 
-@dataclass
-class Place:
-    lat: float
-    lng: float
+ROD_URL = os.getenv("ROD_URL", "http://0.0.0.0:8080")
+URL = f"{ROD_URL}/google/places"
 
 
 @dataclass
 class API:
-    def fetch_place_data(self: "API", place: Place) -> List:
-        response: Response = requests.get(URL, vars(place))
-        return response.json().get('results', [])
+    def search_nearby(self: "API", location: Location) -> List[Any]:
+        response: Response = requests.get(f"{URL}/nearby", vars(location))
+        results: List[Any] = response.json() if response.ok else []
+        return results
+
+    def get_ratings(self: "API", place_ids: List[str]) -> List[Any]:
+        params = {"place_ids": place_ids}
+        response: Response = requests.get(f"{URL}/rating", params=params)
+        results: List[Any] = response.json() if response.ok else []
+        return results
