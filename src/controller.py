@@ -7,7 +7,7 @@ api = API()
 
 
 def get_rated_places(data: Dict[Any, Any]) -> List[RatedPlace]:
-    locations = {
+    locations: Dict[str, Location] = {
         loc["place_id"]: loc["location"]
         for loc in api.search_nearby(Location(**data))
     }
