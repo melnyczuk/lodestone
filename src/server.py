@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from typing import Any, Tuple
 
-from src.controller import get_rated_places
+from .controller import get_rated_places
 
 server = Flask(__name__)
 
