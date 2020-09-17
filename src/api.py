@@ -11,7 +11,7 @@ DOWSING_ROD = os.getenv("DOWSING_ROD")
 URL = f"{DOWSING_ROD}/google/places"
 
 
-@dataclass
+@dataclass(frozen=True)
 class API:
     def search_nearby(self: "API", location: Location) -> List[Any]:
         response: Response = requests.get(f"{URL}/nearby", vars(location))
