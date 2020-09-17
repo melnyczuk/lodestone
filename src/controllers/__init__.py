@@ -1,1 +1,1 @@
-from .ratings import main as ratings
+from .ratings import main as ratings  # noqa: F401

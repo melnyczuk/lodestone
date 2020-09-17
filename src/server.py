@@ -1,4 +1,4 @@
-from flask import abort, Flask, jsonify, request
+from flask import Flask, jsonify, request
 from celery.result import AsyncResult  # type: ignore
 from typing import Any, Tuple
 
