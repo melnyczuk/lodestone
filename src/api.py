@@ -7,11 +7,11 @@ from typing import Any, List
 from .models import Location
 
 
-ROD_URL = os.getenv("ROD_URL", "http://0.0.0.0:8080")
-URL = f"{ROD_URL}/google/places"
+DOWSING_ROD = os.getenv("DOWSING_ROD")
+URL = f"{DOWSING_ROD}/google/places"
 
 
-@dataclass
+@dataclass(frozen=True)
 class API:
     def search_nearby(self: "API", location: Location) -> List[Any]:
         response: Response = requests.get(f"{URL}/nearby", vars(location))

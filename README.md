@@ -1,5 +1,5 @@
-# lode-stone
-geolocation &rarr; orientation
+# Lodestone
+geolocation &rarr; orientation <br>
 ![](https://upload.wikimedia.org/wikipedia/commons/2/20/Lodestone_attracting_nails.png)
 
 ### Lodestone is a service that takes a geolocation and returns an angle of orientation around that point.

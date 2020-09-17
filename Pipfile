@@ -4,21 +4,24 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+black = "==20.8b1"
 flake8 = "*"
 mypy = "*"
-black = "*"
 
 [packages]
+celery = "*"
 flask = "*"
 waitress = "*"
+redis = "*"
 requests = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
 
 [scripts]
-typecheck = "mypy --strict ."
+celery = "celery -A src.celery worker --loglevel=info"
+dev = "flask run --reload --debugger"
 format = "black -l 80 ."
 lint = "flake8 --max-line-length 80 ."
-dev = "flask run --reload --debugger"
-prod = "waitress-serve wsgi:server"
+prod = "waitress-serve src.server:server"
+typecheck = "mypy --strict ."
