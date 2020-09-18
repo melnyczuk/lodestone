@@ -32,7 +32,7 @@ celery = Celery(
     __name__,
     backend=f"{REDIS_URL}/0",
     broker=f"{REDIS_URL}/1",
-    include=["src.controllers"],
+    include=["src.server.controller"],
 )
 
 celery.conf.update({"CELERY_RESULT_SERIALIZER": "dataclassjson"})
