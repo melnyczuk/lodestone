@@ -13,7 +13,7 @@ class PlacesTestCase(TestCase):
     @mock.patch.object(API, "search_nearby", fake_search_nearby)
     @mock.patch.object(API, "get_ratings", fake_get_ratings)
     def test_main(self):
-        result = main(**data)
+        result = main(float(data["lat"]), float(data["lng"]))
         self.assertEqual(result, 91.44799114680296)
 
     @mock.patch.object(API, "search_nearby", fake_search_nearby)
