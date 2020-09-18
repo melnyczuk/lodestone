@@ -13,8 +13,11 @@ URL = f"{DOWSING_ROD}/google/places"
 
 @dataclass(frozen=True)
 class API:
-    def search_nearby(self: "API", location: Location) -> List[Any]:
-        response: Response = requests.get(f"{URL}/nearby", vars(location))
+    def search_nearby(
+        self: "API", location: Location, radius: float = 500.0
+    ) -> List[Any]:
+        data = {**vars(location), "rad": radius}
+        response: Response = requests.get(f"{URL}/nearby", data)
         results: List[Any] = response.json() if response.ok else []
         return results
 

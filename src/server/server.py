@@ -16,7 +16,7 @@ def post_ratings_geolocation() -> Tuple[str, int]:
     if "lat" not in data or "lng" not in data:
         return ("missing valid lat & lng data for this request", 400)
 
-    result = ratings.delay(data)
+    result = ratings.delay(float(data["lat"]), float(data["lng"]))
     return (f"{result}", 202)
 
 

@@ -1,8 +1,8 @@
-from typing import Any, Dict, List, Union
+from typing import Dict, List
 
 from .api import API
 from .geodesy import locations_to_vectors
-from .models import Location
+from .models import Location, RatedPlace
 from .vector_arithmetic import (
     modulate_vector,
     avg_vector,
@@ -13,32 +13,48 @@ from .vector_arithmetic import (
 api = API()
 
 
-def main(data: Dict[str, Any]):
-    current_location = Location(**data)
-    nearby_locations, ratings = get_nearby_locations_and_ratings(
-        current_location
-    )
-    (current_vector, *vectors) = locations_to_vectors(
-        [current_location, *nearby_locations]
-    )
+def main(lat: float, lng: float) -> float:
+    location = Location(lat, lng)
+
+    rated_places = _get_rated_places(location)
+
+    locations = (rp.location for rp in rated_places)
+    (origin, *vectors) = locations_to_vectors([location, *locations])
+
+    ratings = (rp.rating for rp in rated_places)
     vector_rating_tuples = zip(vectors, ratings)
+
     modulated_vectors = [
-        modulate_vector(current_vector, vector, rating)
+        modulate_vector(origin, vector, rating)
         for (vector, rating) in vector_rating_tuples
     ]
+
     avg = avg_vector(modulated_vectors)
-    ang = angle_from_origin_to_vector(current_vector, avg)
-    return ang + 90
+    ang = angle_from_origin_to_vector(origin, avg)
+    return ang + 90.0
 
 
-def get_nearby_locations_and_ratings(
-    location: Location,
-) -> Union[List[Location], List[float]]:
-    place_ids, locations = zip(
-        *[
-            (loc["place_id"], Location(**loc["location"]))
-            for loc in api.search_nearby(location)
-        ]
-    )
-    ratings: List[float] = [rat["rating"] for rat in api.get_ratings(place_ids)]
-    return list(locations), ratings
+def _get_rated_places(location: Location) -> List[RatedPlace]:
+    locations: Dict[str, Location] = {
+        loc["place_id"]: Location(**loc["location"])
+        for loc in api.search_nearby(location)
+    }
+
+    place_ids = list(locations.keys())
+    ratings = _get_ratings(place_ids)
+
+    return [
+        RatedPlace(
+            id=place_id,
+            location=locations[place_id],
+            rating=ratings[place_id],
+        )
+        for place_id in place_ids
+        if place_id in ratings.keys()
+    ]
+
+
+def _get_ratings(place_ids: List[str]) -> Dict[str, float]:
+    return {
+        rat["place_id"]: rat["rating"] for rat in api.get_ratings(place_ids)
+    }

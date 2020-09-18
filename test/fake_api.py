@@ -8,6 +8,13 @@ def fake_search_nearby(*args):
             },
         },
         {
+            "place_id": "fourth_id",
+            "location": {
+                "lat": 51.55332019999999,
+                "lng": -0.0359406,
+            },
+        },
+        {
             "place_id": "second_id",
             "location": {
                 "lat": 51.55291319999999,

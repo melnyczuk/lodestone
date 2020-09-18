@@ -8,6 +8,13 @@ class Location:
 
 
 @dataclass(frozen=True)
+class RatedPlace:
+    id: str
+    location: Location
+    rating: float
+
+
+@dataclass(frozen=True)
 class Vector:
     x: float
     y: float
