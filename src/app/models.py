@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass(frozen=True)
@@ -19,6 +18,3 @@ class RatedPlace:
 class Vector:
     x: float
     y: float
-
-    def toList(self: "Vector") -> List[float]:
-        return [self.x, self.y]

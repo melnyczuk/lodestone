@@ -14,14 +14,17 @@ flask = "*"
 waitress = "*"
 redis = "*"
 requests = "*"
+utm = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.8"
 
 [scripts]
-celery = "celery -A src.celery worker --loglevel=info"
+celery = "celery -A src.server.celery worker --loglevel=info"
 dev = "flask run --reload --debugger"
 format = "black -l 80 ."
-lint = "flake8 --max-line-length 80 ."
+lint = "flake8 --max-line-length 80 src"
 prod = "waitress-serve src.server:server"
-typecheck = "mypy --strict ."
+test = "python -m unittest test"
+typecheck = "mypy --strict src"
