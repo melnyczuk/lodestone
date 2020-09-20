@@ -5,8 +5,6 @@ from kombu.serialization import register  # type: ignore
 from dataclasses import is_dataclass
 from typing import Any
 
-REDIS_URL = environ.get("REDIS")
-
 
 class DataclassJsonEncoder(json.JSONEncoder):
     def default(self: "DataclassJsonEncoder", obj: Any) -> Any:
@@ -30,8 +28,8 @@ register(
 
 celery = Celery(
     __name__,
-    backend=f"{REDIS_URL}/0",
-    broker=f"{REDIS_URL}/1",
+    backend=str(environ["CELERY_BACKEND"]),
+    broker=str(environ["CELERY_BROKER"]),
     include=["src.server.tasks"],
 )
 
