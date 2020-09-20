@@ -2,8 +2,8 @@ from flask import Flask, jsonify, request
 from celery.result import AsyncResult  # type: ignore
 from typing import Any, Tuple
 
-from src.server.celery import celery
-from src.server.tasks import ratings
+from .celery import celery
+from .tasks import ratings
 
 server = Flask(__name__)
 celery.conf.update(server.config)
