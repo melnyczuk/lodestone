@@ -23,7 +23,7 @@ def post_ratings_geolocation() -> Tuple[str, int]:
     result = ratings.delay(float(data["lat"]), float(data["lng"]))
 
     logger.request(202)
-    return (jsonify(result), 202)
+    return (jsonify(result.id), 202)
 
 
 @server.route("/ratings/<id>", methods=["GET"])
