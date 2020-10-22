@@ -11,18 +11,21 @@ mypy = "*"
 [packages]
 celery = "*"
 flask = "*"
-waitress = "*"
+flask-cors = "*"
+numpy = "*"
+pyopenssl = "*"
 redis = "*"
 requests = "*"
 utm = "*"
-numpy = "*"
+waitress = "*"
 
 [requires]
 python_version = "3.8"
 
 [scripts]
-celery = "celery -A src.server.celery worker --loglevel=info"
-dev = "flask run --reload --debugger"
+celery = "celery -A src.server.celery worker --loglevel=INFO"
+dev = "flask run --cert=localhost.crt --key=localhost.key --reload --debugger"
+dev-http = "flask run --reload --debugger"
 format = "black -l 80 ."
 lint = "flake8 --max-line-length 80 src"
 prod = "waitress-serve --port=7777 src.server.server:server"

@@ -1,19 +1,5 @@
 version: '3.8'
 services:
-  lodestone:
-    build: .
-    command: waitress-serve --port=7777 --url-scheme=https src.server.server:server
-    env_file: .env
-    environment:
-      - DOWSING_ROD=http://dowsing-rod:6666
-      - CELERY_BROKER=redis://redis:6379/2
-      - CELERY_BACKEND=redis://redis:6379/1
-    ports:
-      - '7777:7777'
-    depends_on:
-      - dowsing-rod
-      - celery
-
   celery:
     build: .
     command: celery -A src.server.celery worker --loglevel=INFO --uid=nobody --gid=nogroup
@@ -39,3 +25,5 @@ services:
   redis:
     container_name: redis
     image: redis:6.0.8-alpine
+    ports:
+      - '6379:6379'
