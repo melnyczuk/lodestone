@@ -31,6 +31,7 @@ services:
     env_file: .env
     environment:
       - REDIS_URL=redis://redis:6379/0
+      - REDIS_TTL=86400
     ports:
       - '6666:6666'
     depends_on:

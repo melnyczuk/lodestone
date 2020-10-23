@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request
 from flask.json import jsonify
 from flask_cors import CORS  # type: ignore
@@ -10,7 +11,9 @@ from .tasks import ratings
 
 server = Flask(__name__)
 celery.conf.update(server.config)
-CORS(server, origins=["*"])
+
+origins = str(os.getenv("ORIGINS", "")).split(",")
+CORS(server, origins=origins)
 
 logger.log("lodestone is ready 🧭")
 
